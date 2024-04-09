@@ -1,0 +1,13 @@
+services:
+  trilium:
+    image: zadam/trilium
+    restart: always
+    environment:
+      - TRILIUM_DATA_DIR=/home/node/trilium-data
+    ports:
+      - "8080:8080"
+    volumes:
+      - /Docker/Docker_Config/Trilium/:/home/node/trilium-data
+
+volumes:
+  trilium:

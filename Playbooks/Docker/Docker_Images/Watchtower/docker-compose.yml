@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  watchtower:
+    container_name: watchtower
+    restart: always
+    environment:
+      WATCHTOWER_SCHEDULE: 0 0 5 * * * # Run the script at 5 AM every day
+      TZ: Europe/Madrid
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_DEBUG: "true"
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
