@@ -1,0 +1,66 @@
+- name: Set up a Gitea server that you can connect to via a VPN
+  hosts: all
+  become: yes
+  tasks:
+
+
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+ #      Security
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+
+  - name: Copy SHH keys to the remote servers
+    ansible.posix.authorized_key:
+      user: "{{ ansible_ssh_user }}" # Current user of the desktop
+      state: present
+      key: "{{ lookup('file', '/home/gabriel/.ssh/id_ed25519.pub') }}"
+
+  - name: Disable PAM
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: '^#?\s*UsePAM\s'
+      line: 'UsePAM no'
+      state: present
+
+  - name: Password sshd set up to NO
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: '^#?\s*PasswordAuthentication\s'
+      line: 'PasswordAuthentication no'
+      state: present
+
+  - name: Restart the sshd service
+    ansible.builtin.systemd_service:
+      state: restarted
+      daemon_reload: true
+      name: sshd
+
+
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+ #      Install the print server
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+
+  
+  - name: Install print server dependencies
+    apt:
+      name: "{{item}}"
+      state: present
+      update_cache: yes
+    loop:
+      - cups
+
+  - name: Change the users permisions to be a cups admin 
+    user:
+      name: "{{ ansible_user }}"
+      groups: lpadmin
+      append: yes
+  
+  - name: Enable any user in the local network to use the printer 
+    command: sudo cupsctl --remote-any
+
+
+  - name: Restart the cups daemon
+    ansible.builtin.systemd_service:
+      state: restarted
+      daemon_reload: true
+      name: cups
+
