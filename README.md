@@ -40,6 +40,10 @@ This script is special to me, it runs every service I run in my homelab. With th
 
 This script will be modified as I add/remove services to my homelab but I will try to preserve the docker composes.
 
+### SetUp_MachineLearningServer.yml
+
+After installing the security patch, it install a container running Jupyter notebook and another running Tensorboard. Note that Tensorboard must run the minimum requirements to run. The default toke I setup for Jupyterlab is `token`.
+
 ### SetUp_PrintingServer.yml
 
 As the name implies, after running the same script as `SecurityPatch.yml` it will create a server with a printing server with the cups utility.

@@ -8,4 +8,5 @@ services:
       - /Docker/Docker_Config/Jupyterlab/notebooks:/home/jovyan/work
     environment:
       - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=token
     restart: always
