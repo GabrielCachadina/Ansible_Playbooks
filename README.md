@@ -42,7 +42,7 @@ This script will be modified as I add/remove services to my homelab but I will t
 
 ### SetUp_MachineLearningServer.yml
 
-After installing the security patch, it install a container running Jupyter notebook and another running Tensorboard. Note that Tensorboard must run the minimum requirements to run. The default toke I setup for Jupyterlab is `token`.
+After installing the security patch, it installs a container running Jupyter notebook and another running Tensorboard. Note that Tensorboard must run the minimum requirements to run. The default token I setup for Jupyterlab is `token`.
 
 ### SetUp_PrintingServer.yml
 

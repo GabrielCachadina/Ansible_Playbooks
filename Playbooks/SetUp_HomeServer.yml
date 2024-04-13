@@ -80,7 +80,10 @@
       - Wireguard
       - Gitea
       - Trilium
-      - HomePage 
+      - HomePage
+      - Jellyfin
+      - Kavita
+      - Navidrome
   - name: Copy docker config files
     ansible.builtin.copy:
       src: ./Docker/Docker_Config/{{ item }}
@@ -97,3 +100,6 @@
       - Trilium
       - Gitea
       - HomePage
+      - Jellyfin
+      - Kavita
+      - Navidrome

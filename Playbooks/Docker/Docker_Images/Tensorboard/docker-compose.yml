@@ -5,7 +5,7 @@ services:
     ports:
       - "6006:6006"
     volumes:
-      - /Docker/Docker_Config/Jupyterlab/logs/:/logs  # Mount your TensorFlow logs directory
+      - /Docker/Docker_Config/Tensorboard/:/logs  # Mount your TensorFlow logs directory
     command: tensorboard --logdir=/logs --bind_all
     restart: always
 
