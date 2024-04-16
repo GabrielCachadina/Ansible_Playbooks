@@ -3,7 +3,7 @@
 Here lies a personal collection of Ansible notebooks. I mostly use these notebooks to turn a fresh Debian install into a home media server, a Gitea server, or any other kind of server. On rare occasions, I turn to some of these scripts to update and upgrade all of my machines if a vulnerability requires a fast update on all of my servers. These scripts work on my machine but will probably not run on yours without some minor tweaking. If you want to run any of them, I highly recommend using the command:
 
 ```
-ansible-playbook Playbooks/Playbookhere -i Inventory/Inventory.yml --ask-vault-pass --limit=group1,group2,host1,host2
+ansible-playbook Playbooks/Playbookhere -i Inventory/Inventory.yml --ask-vault-pass --limit=group1,group2
 ```
 
 ## Folder structure
@@ -47,6 +47,10 @@ After installing the security patch, it installs a container running Jupyter not
 ### SetUp_PrintingServer.yml
 
 As the name implies, after running the same script as `SecurityPatch.yml` it will create a server with a printing server with the cups utility.
+
+### SetUp_Wireguard.yml
+
+As the name implies, after running the same script as `SecurityPatch.yml` it will host a website and after it runs it is recommended to run `certbot --nginx` to configure https. A possible TODO would be to create a `cronjob` to automate the certbot script.
 
 ### SetUp_Wireguard.yml
 

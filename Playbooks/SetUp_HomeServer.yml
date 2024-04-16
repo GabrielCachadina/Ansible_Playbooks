@@ -89,8 +89,8 @@
       src: ./Docker/Docker_Config/{{ item }}
       dest: /Docker/Docker_Config/
     loop:
-      #- Gitea
-      #- Trilium
+      - Gitea
+      - Trilium
       - HomePage
   - name: Compile all of the docker composes
     command: docker compose -f /Docker/Docker_Images/{{ item }}/docker-compose.yml up -d
