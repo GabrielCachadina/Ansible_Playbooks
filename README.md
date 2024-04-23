@@ -1,6 +1,6 @@
 # A collection of Ansible playbooks
 
-Here lies a personal collection of Ansible notebooks. I mostly use these notebooks to turn a fresh Debian install into a home media server, a Gitea server, or any other kind of server. On rare occasions, I turn to some of these scripts to update and upgrade all of my machines if a vulnerability requires a fast update on all of my servers. These scripts work on my machine but will probably not run on yours without some minor tweaking. If you want to run any of them, I highly recommend using the command:
+Here lies a personal collection of Ansible playbooks. I mostly use these notebooks to turn a fresh Debian install into a home media server, a Gitea server, or any other kind of server. On rare occasions, I turn to some of these scripts to update and upgrade all of my machines if a vulnerability requires a fast update on all of my servers. These scripts work on my machine but will probably not run on yours without some minor tweaking. If you want to run any of them, I highly recommend using the command:
 
 ```
 ansible-playbook Playbooks/Playbookhere -i Inventory/Inventory.yml --ask-vault-pass --limit=group1,group2
@@ -30,9 +30,14 @@ This is the folder structure that this repository will always try to follow:
 
 Simple and small playbook that copies the user's local key and pastes it in the remote server. After that the playbook disables SHH login via password.
 
+### SetUp_3dPrintingServer.yml
+
+This playbook installs and boots an [OctoPrint](https://octoprint.org/) docker container.
+
+
 ### SetUp_GiteaServer.yml
 
-As the name implies, after running the same script as `SecurityPatch.yml` it will create a Gitea server and a VPN to connect to it.
+This playbook will create a [Gitea](https://about.gitea.com/) server and a VPN to connect to it.
 
 ### SetUp_HomeServer.yml
 
@@ -42,19 +47,19 @@ This script will be modified as I add/remove services to my homelab but I will t
 
 ### SetUp_MachineLearningServer.yml
 
-After installing the security patch, it installs a container running Jupyter notebook and another running Tensorboard. Note that Tensorboard must run the minimum requirements to run. The default token I setup for Jupyterlab is `token`.
+After installing the security patch, it installs a container running [Jupyter notebook](https://jupyter.org/) and another running [Tensorboard](https://www.tensorflow.org/tensorboard). Note that Tensorboard must run the minimum requirements to run. The default token I setup for Jupyterlab is `token`.
 
 ### SetUp_PrintingServer.yml
 
-As the name implies, after running the same script as `SecurityPatch.yml` it will create a server with a printing server with the cups utility.
+This playbook will create a server the [cups](https://openprinting.github.io/cups/cups3.html) utility installed.
+
+### SetUp_Website.yml
+
+This playbook will create a server that hosts a website. After it runs it is recommended to run `certbot --nginx` to configure https. A possible TODO would be to create a `cronjob` to automate the certbot script.
 
 ### SetUp_Wireguard.yml
 
-As the name implies, after running the same script as `SecurityPatch.yml` it will host a website and after it runs it is recommended to run `certbot --nginx` to configure https. A possible TODO would be to create a `cronjob` to automate the certbot script.
-
-### SetUp_Wireguard.yml
-
-As the name implies, after running the same script as `SecurityPatch.yml` it will create a server with a WireguardVPN VPN installed in it.
+As the name implies, after running the same script as `SecurityPatch.yml` it will create a server with a [WireguardVPN](https://www.wireguard.com/) VPN installed in it.
 
 ### UpdateUpgrade.yml
 

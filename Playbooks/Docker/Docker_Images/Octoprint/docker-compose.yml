@@ -1,0 +1,12 @@
+version: '2.4'
+
+services:
+  octoprint:
+    image: octoprint/octoprint
+    restart: unless-stopped
+    ports:
+      - 80:80
+    volumes:
+     - octoprint:/octoprint
+volumes:
+  octoprint:
