@@ -2,7 +2,7 @@
 
 Here lies a personal collection of Ansible playbooks. I mostly use these notebooks to turn a fresh Debian install into a home media server, a Gitea server, or any other kind of server. On rare occasions, I turn to some of these scripts to update and upgrade all of my machines if a vulnerability requires a fast update on all of my servers. These scripts work on my machine but will probably not run on yours without some minor tweaking. If you want to run any of them, I highly recommend using the command:
 
-```
+```bash
 ansible-playbook Playbooks/Playbookhere -i Inventory/Inventory.yml --ask-vault-pass --limit=group1,group2
 ```
 
@@ -37,7 +37,12 @@ This playbook installs and boots an [OctoPrint](https://octoprint.org/) docker c
 
 ### SetUp_GiteaServer.yml
 
-This playbook will create a [Gitea](https://about.gitea.com/) server and a VPN to connect to it.
+This playbook will create a [Gitea](https://about.gitea.com/) server. Note that this does not use `https` so it is recommended to use a VPN or to tunnel the traffic with the following command:
+
+```bash
+ssh -f -N -L 3000:localhost:3000 root@xx.xx.xx.xx
+```
+Note that gives any user that can tunnel to have root access, a possible TODO would be to create an unprivileged user that is used only to tunnel traffic.
 
 ### SetUp_HomeServer.yml
 
@@ -65,5 +70,8 @@ As the name implies, after running the same script as `SecurityPatch.yml` it wil
 
 Updates and upgrades all of the targeted servers.
 
+## Aditional notes
+
+Any playbook not listed above is problaly been tested and thus, will probably not work.
 
 

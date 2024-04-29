@@ -77,12 +77,12 @@
       dest: /Docker/Docker_Images/
     loop:
       - Watchtower
-      - Wireguard
       - Gitea
 
   - name: Compile all of the docker composes
     command: docker compose -f /Docker/Docker_Images/{{ item }}/docker-compose.yml up -d
     loop:
       - Watchtower
-      - Wireguard
       - Gitea
+
+

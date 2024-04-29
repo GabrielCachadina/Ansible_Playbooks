@@ -1,0 +1,82 @@
+- name: Setup remote website server
+  hosts: all
+  become: yes
+  tasks:
+  
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+ #      Security
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+
+  - name: Copy SHH keys to the remote servers
+    ansible.posix.authorized_key:
+      user: "{{ ansible_ssh_user }}" # Current user of the desktop
+      state: present
+      key: "{{ lookup('file', '/home/gabriel/.ssh/id_ed25519.pub') }}"
+
+  - name: Disable SHH password authentication
+    lineinfile:
+      dest: /etc/ssh/ssh_config
+      regexp: '^#?\s*PasswordAuthentification\s'
+      line: 'PasswordAuthentification no'
+      state: present
+
+  - name: Disable PAM
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: '^#?\s*UsePAM\s'
+      line: 'UsePAM no'
+      state: present
+
+  - name: Password sshd set up to NO
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: '^#?\s*PasswordAuthentication\s'
+      line: 'PasswordAuthentication no'
+      state: present
+
+  - name: Restart the sshd service
+    ansible.builtin.systemd_service:
+      state: restarted
+      daemon_reload: true
+      name: sshd
+
+
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+ #      Install packages
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+  - name: Install packages
+    apt:
+      name: "{{item}}"
+      state: present
+      update_cache: yes
+    loop:
+      - ejabberd
+      - python3-certbot-nginx
+      - erlang-p1-pgsql
+      - postgresql
+
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+ #      Modify Ejabberd
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+  
+  - name: Copy the prosody configuration file
+    ansible.builtin.copy:
+      src: ./Programs/XMPP/Ejabberd/ejabberd.yml
+      dest: /etc/ejabberd/
+  
+ # Move the ejabberd certificates to the correct folder
+
+  - name: Create a directory for the certificates
+    ansible.builtin.file:
+      path: /etc/ejabberd/certs/
+      state: directory
+
+  - name: Execute certbot script with specified domain
+    shell: |
+      DOMAIN="gabriel.com"
+      for i in "" "conference." "proxy." "pubsub." "upload."; do
+        certbot --nginx -d $i$DOMAIN certonly
+        mkdir -p /opt/ejabberd/certs/$i$DOMAIN
+        cp /etc/letsencrypt/live/$i$DOMAIN/fullchain.pem /opt/ejabberd/certs/$i$DOMAIN/
+        cp /etc/letsencrypt/live/$i$DOMAIN/privkey.pem /opt/ejabberd/certs/$i$DOMAIN/
+      done
