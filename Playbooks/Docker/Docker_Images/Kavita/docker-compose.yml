@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Madrid
     volumes:
       - /Docker/Docker_Config/Kavita:/config
-      - /Storage/Media/Books:/data
+      - /Media/Books:/data
     ports:
       - 5000:5000
     restart: unless-stopped

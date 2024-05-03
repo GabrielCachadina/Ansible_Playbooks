@@ -1,0 +1,16 @@
+---
+services:
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /Docker/Docker_Config/Lindarr/config:/config
+      - /Media/Music:/music #optional
+      - /Media/Music:/downloads #optional
+    ports:
+      - 8686:8686
+    restart: unless-stopped

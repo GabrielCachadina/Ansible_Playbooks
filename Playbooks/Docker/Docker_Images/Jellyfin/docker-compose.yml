@@ -10,7 +10,7 @@ services:
     volumes:
       - /Docker/Docker_Config/Jellyfin/config:/config
       - /Docker/Docker_Config/Jellyfin/cache:/cache
-      - /Storage/Media:/media
+      - /Media:/media
     ports:
       - 8096:8096
     restart: unless-stopped

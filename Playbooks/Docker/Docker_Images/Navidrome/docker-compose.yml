@@ -8,4 +8,4 @@ services:
     restart: unless-stopped
     volumes:
       - "/Docker/Docker_Config/Kavita:/data"
-      - "/Storage/Media/Music/:/music:ro"
+      - "/Media/Music/:/music:ro"
