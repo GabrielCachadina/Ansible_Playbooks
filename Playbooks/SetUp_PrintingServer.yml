@@ -1,4 +1,4 @@
-- name: Set up a Gitea server that you can connect to via a VPN
+- name: Set up a printing server using cups
   hosts: all
   become: yes
   tasks:

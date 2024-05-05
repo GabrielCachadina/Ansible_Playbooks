@@ -35,6 +35,11 @@ Simple and small playbook that copies the user's local key and pastes it in the 
 This playbook installs and boots an [OctoPrint](https://octoprint.org/) docker container.
 
 
+### SetUp_Computer.yml
+
+Sets up a copy of my computer into another computer, copying the dot-files, nixos-config and all of my important files.
+
+
 ### SetUp_GiteaServer.yml
 
 This playbook will create a [Gitea](https://about.gitea.com/) server. Note that this does not use `https` so it is recommended to use a VPN or to tunnel the traffic with the following command:
@@ -65,6 +70,10 @@ This playbook will create a server that hosts a website. After it runs it is rec
 ### SetUp_Wireguard.yml
 
 As the name implies, after running the same script as `SecurityPatch.yml` it will create a server with a [WireguardVPN](https://www.wireguard.com/) VPN installed in it.
+
+### StopAll_DockerContainers.yml
+
+This notebook stops all docker containers running in the target machine.
 
 ### UpdateUpgrade.yml
 

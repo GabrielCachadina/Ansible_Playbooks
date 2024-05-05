@@ -1,0 +1,51 @@
+- name: Set up my PC with all of my configurations and dot files
+  hosts: all
+  become: yes
+  tasks:
+
+
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+ #      Copy all of the files
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+
+  - name: Copy dot files
+    ansible.builtin.copy:
+      src: ./PC/dotfiles/{{ item }}
+      dest: /home/gabriel/.config/
+    loop:
+      - hypr
+      - waybar
+      - newsboat
+
+  - name: Copy nixos configuration
+    ansible.builtin.copy:
+      src: ./PC/nixosconfig/{{ item }}
+      dest: /etc/nixos/
+    loop:
+      - configuration.nix
+
+
+  - name: Copy ssh keys
+    ansible.builtin.copy:
+      src: ./PC/ssh/{{ item }}
+      dest: /home/gabriel/.config/
+    loop:
+      - id_ed25519
+      - id_ed25519.pub
+      - config
+  
+  - name: Copy important files
+    ansible.builtin.copy:
+      src: ./PC/Important_files
+      dest: /home/gabriel/
+
+
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+ #      Rebuild nixos
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+ 
+  - name: Compile all of the changes
+    ansible.builtin.shell: sudo nixos-rebuild switch
+
+  - name: Reboot
+    ansible.builtin.reboot:

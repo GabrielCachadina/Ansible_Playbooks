@@ -1,4 +1,4 @@
-- name: Set up a Gitea server that you can connect to via a VPN
+- name: Set up an Octopi container to remotely do 3d prints
   hosts: all
   become: yes
   tasks:
