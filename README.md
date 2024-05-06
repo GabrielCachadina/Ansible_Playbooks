@@ -67,6 +67,10 @@ This playbook will create a server the [cups](https://openprinting.github.io/cup
 
 This playbook will create a server that hosts a website. After it runs it is recommended to run `certbot --nginx` to configure https. A possible TODO would be to create a `cronjob` to automate the certbot script.
 
+### SetUp_Wikipedia.yml
+
+Sets up a [Wiki.js](https://js.wiki/) instance in the targeted machine. 
+
 ### SetUp_Wireguard.yml
 
 As the name implies, after running the same script as `SecurityPatch.yml` it will create a server with a [WireguardVPN](https://www.wireguard.com/) VPN installed in it.
