@@ -1,0 +1,97 @@
+- name: Setup a streamlit webapp
+  hosts: all
+  become: yes
+  tasks:
+  
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+ #      Security
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+
+  - name: Copy SHH keys to the remote servers
+    ansible.posix.authorized_key:
+      user: "{{ ansible_ssh_user }}" # Current user of the desktop
+      state: present
+      key: "{{ lookup('file', '/home/gabriel/.ssh/id_ed25519.pub') }}"
+
+  - name: Disable SHH password authentication
+    lineinfile:
+      dest: /etc/ssh/ssh_config
+      regexp: '^#?\s*PasswordAuthentification\s'
+      line: 'PasswordAuthentification no'
+      state: present
+
+  - name: Disable PAM
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: '^#?\s*UsePAM\s'
+      line: 'UsePAM no'
+      state: present
+
+  - name: Password sshd set up to NO
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: '^#?\s*PasswordAuthentication\s'
+      line: 'PasswordAuthentication no'
+      state: present
+
+  - name: Restart the sshd service
+    ansible.builtin.systemd_service:
+      state: restarted
+      daemon_reload: true
+      name: sshd
+
+
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+ #      Install packages
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+  - name: Install packages
+    apt:
+      name: "{{item}}"
+      state: present
+      update_cache: yes
+    loop:
+      - nginx
+      - python3-certbot-nginx
+      - rsync
+      - python3-venv # Used for the app
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+ #      Modify nginx
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+  
+  - name: Copy the nginx configuration file
+    ansible.builtin.copy:
+      src: ./Programs/StreamlitApp/Nginx/default
+      dest: /etc/nginx/sites-enabled/
+  
+  - name: Restart the nginx service
+    ansible.builtin.systemd_service:
+      state: restarted
+      daemon_reload: true
+      name: nginx
+
+ 
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+ #      Copy the App
+ # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
+  
+
+  - name: Copy the app
+    ansible.builtin.copy:
+      src: ./Programs/StreamlitApp/App/
+      dest: /Website/
+
+  - name: Create Python virtual environment
+    command:
+      cmd: "python3 -m venv /Website/venv"
+      creates: "/Website/venv"
+
+  - name: Install python packages with the local instance of pip
+    shell: "source /Website/venv/bin/activate && pip install {{ item }}"
+    loop:
+      - streamlit
+      - pandas
+    args:
+      executable: /bin/bash  # Or the path to your shell
+
+  # To run the service use "streamlit run app.py"
+  # After all of this, run "certbot --nginx"
