@@ -50,25 +50,8 @@
       state: present
       update_cache: yes
     loop:
-      - nginx
-      - python3-certbot-nginx
       - rsync
       - python3-venv # Used for the app
- # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
- #      Modify nginx
- # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
-  
-  - name: Copy the nginx configuration file
-    ansible.builtin.copy:
-      src: ./Programs/StreamlitApp/Nginx/default
-      dest: /etc/nginx/sites-enabled/
-  
-  - name: Restart the nginx service
-    ansible.builtin.systemd_service:
-      state: restarted
-      daemon_reload: true
-      name: nginx
-
  
  # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
  #      Copy the App
@@ -90,6 +73,10 @@
     loop:
       - streamlit
       - pandas
+      - matplotlib
+      - scikit-learn
+      - seaborn
+      - openpyxl
     args:
       executable: /bin/bash  # Or the path to your shell
 

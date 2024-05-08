@@ -63,6 +63,11 @@ After installing the security patch, it installs a container running [Jupyter no
 
 This playbook will create a server the [cups](https://openprinting.github.io/cups/cups3.html) utility installed.
 
+### Setup_StreamlitApp
+
+This playbook sets up a streamlit app and gets it ready to activate the `venv` and deploy the app in port `80`
+
+
 ### SetUp_Website.yml
 
 This playbook will create a server that hosts a website. After it runs it is recommended to run `certbot --nginx` to configure https. A possible TODO would be to create a `cronjob` to automate the certbot script.
