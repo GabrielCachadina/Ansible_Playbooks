@@ -1,0 +1,18 @@
+---
+services:
+  deluge:
+    image: lscr.io/linuxserver/deluge:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - DELUGE_LOGLEVEL=error #optional
+    volumes:
+      - /Docker/Docker_Config/Deluge_Movies/config:/config
+      - /Media/Movies:/downloads
+    ports:
+      - 8115:8112
+      - 6885:6881
+      - 6885:6881/udp
+      - 58845:58846 #optional
+    restart: unless-stopped

@@ -82,13 +82,9 @@
       - Jellyfin
       - Kavita
       - Navidrome
-      - Deluge_Radarr
-      - Deluge_Sonarr
-      - Deluge_Lidarr
-      - Prowlarr
-      - Sonarr
-      - Radarr
-      - Lidarr
+      - Deluge_Movies
+      - Deluge_Series
+      - Deluge_Music
   - name: Copy docker config files
     ansible.builtin.copy:
       src: ./Docker/Docker_Config/{{ item }}
@@ -104,10 +100,6 @@
       - Jellyfin
       - Kavita
       - Navidrome
-      - Deluge_Radarr
-      - Deluge_Sonarr
-      - Deluge_Lidarr
-      - Prowlarr
-      - Sonarr
-      - Radarr
-      - Lidarr
+      - Deluge_Movies
+      - Deluge_Series
+      - Deluge_Music

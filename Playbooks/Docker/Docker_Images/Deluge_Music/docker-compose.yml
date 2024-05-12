@@ -1,0 +1,18 @@
+---
+services:
+  deluge:
+    image: lscr.io/linuxserver/deluge:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - DELUGE_LOGLEVEL=error #optional
+    volumes:
+      - /Docker/Docker_Config/Deluge_Music/config:/config
+      - /Media/Music:/downloads
+    ports:
+      - 8117:8112
+      - 6887:6881
+      - 6887:6881/udp
+      - 58847:58846 #optional
+    restart: unless-stopped
