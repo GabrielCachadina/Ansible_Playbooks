@@ -59,6 +59,14 @@ This script will be modified as I add/remove services to my homelab but I will t
 
 After installing the security patch, it installs a container running [Jupyter notebook](https://jupyter.org/) and another running [Tensorboard](https://www.tensorflow.org/tensorboard). Note that Tensorboard must run the minimum requirements to run. The default token I setup for Jupyterlab is `token`.
 
+### SetUp_MachineLearningServer.yml
+
+After installing the security patch, it installs a 4 containers:
+    - Grafana, to monitor the data.
+    - Cadvisor, to monitor the containers.
+    - Node Exporter, to monitor the local system.
+    - Prometheus, a database.
+
 ### SetUp_PrintingServer.yml
 
 This playbook will create a server the [cups](https://openprinting.github.io/cups/cups3.html) utility installed.

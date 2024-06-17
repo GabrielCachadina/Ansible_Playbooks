@@ -1,4 +1,5 @@
 Inventory/Inventory.yml
 Playbooks/Programs/*
-Playbooks/Docker/Docker_Config/*
+Playbooks/Docker/Docker_Config/Trilium/
+Playbooks/Docker/Docker_Config/Gitea/
 Playbooks/PC/*

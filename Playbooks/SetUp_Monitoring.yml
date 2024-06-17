@@ -1,19 +1,18 @@
-- name: Set up a Homelab Server
+- name: Set up a monitoring service for the server
   hosts: all
   become: yes
   tasks:
 
+
  # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
  #      Security
  # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
-
 
   - name: Copy SHH keys to the remote servers
     ansible.posix.authorized_key:
       user: "{{ ansible_ssh_user }}" # Current user of the desktop
       state: present
       key: "{{ lookup('file', '/home/gabriel/.ssh/id_ed25519.pub') }}"
-
 
   - name: Disable PAM
     lineinfile:
@@ -34,6 +33,7 @@
       state: restarted
       daemon_reload: true
       name: sshd
+
 
  # -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- #
  #      Docker
@@ -76,32 +76,22 @@
       src: ./Docker/Docker_Images/{{ item }}
       dest: /Docker/Docker_Images/
     loop:
-      - Watchtower
-      - Wireguard
-      - HomePage
-      - Jellyfin
-      - Kavita
-      - Navidrome
-      - Deluge_Movies
-      - Deluge_Series
-      - Deluge_Music
-      - PiHole
+      - Cadvisor
+      - Grafana
+      - Nodeexporter
+      - Prometheus
+
   - name: Copy docker config files
     ansible.builtin.copy:
       src: ./Docker/Docker_Config/{{ item }}
       dest: /Docker/Docker_Config/
     loop:
-      - HomePage
+      - Prometheus
+
   - name: Compile all of the docker composes
     command: docker compose -f /Docker/Docker_Images/{{ item }}/docker-compose.yml up -d
     loop:
-      - Watchtower
-      - Wireguard
-      - HomePage
-      - Jellyfin
-      - Kavita
-      - Navidrome
-      - Deluge_Movies
-      - Deluge_Series
-      - Deluge_Music
-      - PiHole
+      - Cadvisor
+      - Grafana
+      - Nodeexporter
+      - Prometheus

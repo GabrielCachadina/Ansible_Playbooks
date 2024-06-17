@@ -1,0 +1,12 @@
+version: '3'
+services:
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    user: root
+    restart: unless-stopped
+    volumes:
+      - /Docker/Docker_Config/Prometheus/prometheus-data:/prometheus
+      - /Docker/Docker_Config/Prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+

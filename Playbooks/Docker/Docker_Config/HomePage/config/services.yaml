@@ -1,0 +1,36 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+
+- Services:
+  - Jellyfin:
+      href: http://192.168.0.16:8096
+      widget:
+        type: jellyfin
+        url: http://192.168.0.16:8096
+        key: 83449c0fa67b421789c998661d84f83a 
+        enableBlocks: true # optional, defaults to false
+        enableNowPlaying: true # optional, defaults to true
+
+
+- Download:
+    - Deluge Movies:
+        href: http://192.168.0.16:8115/
+        widget:
+          type: deluge
+          url: http://192.168.0.16:8115/
+          password: BtNDVTShSURUZqKRisANOwDcyLclRGDtkvOZzvamAvhArbedbVwfmp
+
+    - Deluge Series:
+        href: http://192.168.0.16:8116/
+        widget:
+          type: deluge
+          url: http://192.168.0.16:8116/
+          password: oIEyUqJXCJTlySZXzldGvtRFYwVmvmIVVHXCiRIZpTLpjRNLJGYCji
+
+    - Deluge Music:
+        href: http://192.168.0.16:8117/
+        widget:
+          type: deluge
+          url: http://192.168.0.16:8117/
+          password: ou/dpn[@!{-#Z_URmb'c%[J{d`<;Kck:-:6:vho}@HsG_h'o]Hlm$n
